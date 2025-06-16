@@ -9,10 +9,12 @@ import time
 
 
 def addition():
-    """This function asks the user to enter a series of numbers separated by spaces.
-    It then adds all the numbers together and returns the result."""
-    nums = list(map(int, input("Enter all numbers separated by space: ").split()))
-    return sum(nums)
+    user_input = input()
+    if not user_input.strip():
+        raise ValueError("No input provided")
+    numbers = list(map(int, user_input.split()))
+    print(sum(numbers))
+
 
 
 def subtraction():
