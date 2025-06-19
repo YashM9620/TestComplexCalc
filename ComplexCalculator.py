@@ -27,26 +27,34 @@ def subtraction():
 
 
 def multiplication():
-    """Function asks user to enter a series of numbers separated by spaces.
-    Then multiply all the numbers together and returns the result."""
+    """
+    Function asks user to enter a series of numbers separated by spaces.
+    Multiplies all the numbers together and returns the result.
 
-    nums = list(map(int, input("Enter all numbers separated by space: ").split()))
-    result = 1
-    for num in nums:
-        result *= num
-    return result
+    Returns:
+        int or str: Product of the numbers or "Invalid entry" if input is invalid.
+    """
+    try:
+        input_str = input("Enter all numbers separated by space: ").strip()
+        if not input_str:
+            raise ValueError("Empty input")
 
+        nums = list(map(int, input_str.split()))
+        if not nums:
+            raise ValueError("No valid numbers provided")
 
-def division():
-    """Function divide two numbers"""
-    n1 = float(input("Enter first number: "))
-    n2 = float(input("Enter second number: "))
-    if n2 == 0:
+        result = 1
+        for num in nums:
+            result *= num
+
+        print(result)
+        return result
+
+    except (ValueError, TypeError):
         print("Invalid entry")
         return "Invalid entry"
-    print(n1 / n2)
 
-    return n1 / n2
+
 
 
 def average():
@@ -59,15 +67,29 @@ def average():
 
 def factorial(num):
     """
-    Function to calculate the factorial of a number.
+    Function to calculate the factorial of a non-negative integer.
 
-    Takes a number as an argument, calculates the factorial of the number,
-    and returns the result.
+    Args:
+        num (int): A non-negative integer.
+
+    Returns:
+        int: Factorial of the number.
+
+    Raises:
+        ValueError: If the input is not a non-negative integer.
     """
+    if not isinstance(num, int):
+        raise ValueError("Input must be an integer.")
+
+    if num < 0:
+        raise ValueError("factorial is undefined for negative numbers")
+
     answer = 1
-    for i in range(num):
-        answer *= i + 1
+    for i in range(1, num + 1):
+        answer *= i
+
     return answer
+
 
 
 def complex_addition():
@@ -109,14 +131,35 @@ def complex_division():
     return f"{real}+ i{imag}"
 
 
+from math import factorial
+
 def binomial(num):
     """
-    Function to calculate the binomial coefficient.
-
-    Takes two numbers as arguments, calculates the binomial coefficient using the formula n!/(k!(n-k)!),
-    and returns the result.
+    Calculate the binomial coefficient C(n, k) = n! / (k! * (n-k)!)
+    
+    Args:
+        num (tuple or list): Two integers (n, k), where n >= k >= 0.
+    
+    Returns:
+        int: Binomial coefficient.
+    
+    Raises:
+        ValueError: If inputs are not valid or k > n.
     """
-    result = factorial(num[0]) / (factorial(num[1]) * factorial(num[0] - num[1]))
-    return result
+    # Input validation
+    if not isinstance(num, (list, tuple)) or len(num) != 2:
+        raise ValueError("Input must be a tuple or list of two integers.")
+    
+    n, k = num
+
+    if not isinstance(n, int) or not isinstance(k, int):
+        raise ValueError("Both n and k must be integers.")
+    if n < 0 or k < 0:
+        raise ValueError("n and k must be non-negative integers.")
+    if k > n:
+        raise ValueError("k must be less than or equal to n.")
+    
+    # Use integer division to avoid float precision issues
+    return factorial(n) // (factorial(k) * factorial(n - k))
 
 
